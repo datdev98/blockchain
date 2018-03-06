@@ -21,7 +21,7 @@ int transaction_test()
 
     Transaction transaction(senderPrivateAddress, receiverPublicAddress, 1000, "Hello");
     
-    cout << "Hash: " << transaction.CalculateHash() << endl << endl;
+    cout << "Hash: " << transaction.GetHash() << endl << endl;
     cout << "Sender get transaction info: " << transaction.GetTransactionInfo(senderPrivateAddress) << endl;
     cout << "Receiver get transaction info: " << transaction.GetTransactionInfo(receiverPrivateAddress) << endl;
     cout << "Guess get transaction info: " << transaction.GetTransactionInfo(sha256("askfhaasfqiweup")) << endl;

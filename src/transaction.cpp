@@ -8,14 +8,20 @@ Transaction::Transaction(string fromAddress, string toAddress, double amount, st
     _toAddress = toAddress;
     _amount = amount;
     _content = content;
+    _hash = _CalculateHash();
 }
 
-string Transaction::CalculateHash() const
+string Transaction::_CalculateHash()
 {
     stringstream ss;
     ss << _time << _fromAddress << _toAddress << _amount << _content;
 
     return sha256(ss.str());
+}
+
+string Transaction::GetHash() const
+{
+    return _hash;
 }
 
 string Transaction::GetTransactionInfo(string userPrivateKey)
