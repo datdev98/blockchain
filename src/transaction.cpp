@@ -1,5 +1,4 @@
 #include "transaction.h"
-#include "sha256.h"
 
 Transaction::Transaction(string fromAddress, string toAddress, double amount, string content) 
 {

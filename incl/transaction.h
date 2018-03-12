@@ -3,6 +3,7 @@
 
 #include <ctime>
 #include <sstream>
+#include "sha256.h"
 
 using namespace std;
 

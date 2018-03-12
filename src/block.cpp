@@ -7,7 +7,7 @@ Block::Block(string previousHash)
     _previousHash = previousHash;
     _nonce = -1;
     _isMined = false;
-    _hash = "0";
+    _hash = "";
 }
 
 void Block::AddTransaction(Transaction &transaction)
