@@ -73,12 +73,14 @@ string Block::_TransactionHashes()
     return ss.str();
 }
 
-Transaction * Block::GetTransaction(string transactionHash)
+const Transaction * Block::GetTransaction(const string transactionHash) const
 {
     for (uint32_t i = 0; i < _transacstions.size(); i++)
     {
         if (_transacstions[i].GetHash().compare(transactionHash) == 0)
+        {
             return &_transacstions[i];
+        }
     }
 }
 

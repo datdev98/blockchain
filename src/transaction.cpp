@@ -23,7 +23,7 @@ string Transaction::GetHash() const
     return _hash;
 }
 
-string Transaction::GetTransactionInfo(string userPrivateKey)
+string Transaction::GetTransactionInfo(string userPrivateKey) const
 {
     stringstream ss;
     ss << asctime(gmtime(&_time))
@@ -38,12 +38,13 @@ string Transaction::GetTransactionInfo(string userPrivateKey)
     return ss.str();
 }
 
-bool Transaction::_IsParticipant(string userPrivateKey)
+bool Transaction::_IsParticipant(string userPrivateKey) const
 {
     return (userPrivateKey.compare(_fromAddress) == 0) || (sha256(userPrivateKey).compare(_toAddress) == 0);
 }
 
 
-string Transaction::_GetPublicAddressOfSender() {
+string Transaction::_GetPublicAddressOfSender() const
+{
     return sha256(_fromAddress);
 }

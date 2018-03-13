@@ -31,7 +31,7 @@ class Block
         void AddTransaction(Transaction &transacstion);
         string GetHash() const;
         void Mine(uint16_t dificulty);
-        Transaction * GetTransaction(string transactionHash);
+        const Transaction * GetTransaction(const string transactionHash) const;
 };
 
 #endif

@@ -18,10 +18,10 @@ class Transaction
         string _hash;
 
         // Kiem tra nguoi dung co tham gia giao dich hay khong
-        bool _IsParticipant(string userPrivateKey);
+        bool _IsParticipant(string userPrivateKey) const;
 
         // Tra ve dia chi cong khai cua nguoi gui
-        string _GetPublicAddressOfSender();
+        string _GetPublicAddressOfSender() const;
 
         // Tinh hash cua doi tuong
         string _CalculateHash();
@@ -29,7 +29,7 @@ class Transaction
     public:
         Transaction(string fromAddress, string toAddress, double amount, string content);
         string GetHash() const;
-        string GetTransactionInfo(string userPrivateKey);
+        string GetTransactionInfo(string userPrivateKey) const;
 };
 
 #endif
