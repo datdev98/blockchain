@@ -48,3 +48,22 @@ string Transaction::_GetPublicAddressOfSender() const
 {
     return sha256(_fromAddress);
 }
+
+double Transaction::GetTransactionAmount(string userPrivateKey) const
+{
+    if (_IsSender(userPrivateKey))
+        return - _amount;
+    if (_IsReceiver(userPrivateKey))
+        return + _amount;
+    return 0;
+}
+
+bool Transaction::_IsSender(string userPrivateKey) const
+{
+    return _fromAddress.compare(userPrivateKey) == 0;
+}
+
+bool Transaction::_IsReceiver(string userPrivateKey) const
+{
+    return _toAddress.compare(sha256(userPrivateKey)) == 0;
+}

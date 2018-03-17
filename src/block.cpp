@@ -15,7 +15,6 @@ void Block::AddTransaction(Transaction &transaction)
     if (!this->_isMined)
     {
         _transacstions.push_back(transaction);
-        cout << "Transaction Added" << endl;
     } 
     else
     {
@@ -82,5 +81,18 @@ const Transaction * Block::GetTransaction(const string transactionHash) const
             return &_transacstions[i];
         }
     }
+}
+
+const Transaction * Block::GetTransaction(const uint32_t index) const
+{
+    return &_transacstions[index];
+}
+
+double Block::GetBlockAmount(string userPrivateKey) const
+{
+    double amount = 0;
+    for (uint32_t i = 0; i < _transacstions.size(); i++)
+        amount += _transacstions[i].GetTransactionAmount(userPrivateKey);
+    return amount;
 }
 

@@ -3,100 +3,49 @@
 #include "transaction.h"
 #include "block.h"
 #include "blockchain.h"
+#include "wallet.h"
 #include "sha256.h"
 
 using namespace std;
 
-int transaction_test();
-int block_test();
-int blockchain_test();
+void wallet_test();
 
 int main()
 {
-    blockchain_test();
+    wallet_test();
     return 0;
 }
 
-int blockchain_test()
+void wallet_test()
 {
-    cout << "Tao blockchain va genesis block: " << endl;
-    Blockchain blockchain(4);
-    cout << endl;
-
-    cout << "Tao 3 giao dich..." << endl;
-    Transaction transaction1("asdfasdfaasfasdfa", sha256("qwuerhrewerasdfas"), 1000, "First Transaction");
-    Transaction transaction2("asdfwewqr", sha256("sdwaasdfsaf"), 1300, "Second Transaction");
-    Transaction transaction3("llelleklnlz", sha256("sdwaasdqwewaf"), 2000, "Third Transaction");
-    cout << "Tao xong 3 giao dich" << endl << endl;
-
-    cout << "Them giao dich 1 vao blockchain..." << endl;
-    blockchain.AddTransactionToPendingBlock(transaction1);
-    cout << "Them giao dich 2 vao blockchain..." << endl;
-    blockchain.AddTransactionToPendingBlock(transaction2);
-
-    cout << "Mine block..." << endl;
-    blockchain.AddPendingBlockToChain();
-
-    cout << "Them giao dich 3 vao blockchain..." << endl;    
-    blockchain.AddTransactionToPendingBlock(transaction3);  
-    cout << "Mine block... " << endl;  
-    blockchain.AddPendingBlockToChain();
-
-    const Block * block1 = blockchain.GetBlock(1);
-
-    Transaction aTransaction = * block1->GetTransaction(transaction1.GetHash());
-
-    const Transaction * otherTransaction = blockchain.GetTransaction(transaction3.GetHash());
-
-    cout << endl;
-    cout << "Transaction 1 info khi User khong tham gia giao dich" << endl << aTransaction.GetTransactionInfo("");
-    cout <<"Transaction 3 info khi User tham gia giao dich" << endl << otherTransaction->GetTransactionInfo("sdwaasdqwewaf");
-    return 0;
-}
-
-int transaction_test()
-{
-    string senderPrivateAddress = "asfasfasasfa";
-    string senderPublicAddress = sha256(senderPrivateAddress);
-    string receiverPrivateAddress = "asfaaoiekksfas";
-    string receiverPublicAddress = sha256(receiverPrivateAddress);
-
-    Transaction transaction(senderPrivateAddress, receiverPublicAddress, 1000, "Hello");
+    Blockchain blockchain(4, 100);
     
-    cout << "Hash: " << transaction.GetHash() << endl << endl;
-    cout << "Sender get transaction info: " << transaction.GetTransactionInfo(senderPrivateAddress) << endl;
-    cout << "Receiver get transaction info: " << transaction.GetTransactionInfo(receiverPrivateAddress) << endl;
-    cout << "Guess get transaction info: " << transaction.GetTransactionInfo(sha256("askfhaasfqiweup")) << endl;
-    
-    return 0;
-}
+    Wallet walletDat(sha256("Nguyen Van Dat"), &blockchain);
+    Wallet walletTuanAnh(sha256("Trinh Tuan Anh"), &blockchain);
+    Wallet walletMo(sha256("Tong Thi Mo"), &blockchain);
 
-int block_test()
-{
-    Block block(sha256("iouaopsifa9fuasfasfasf"));
-    Transaction transaction1("asdfasdfaasfasdfa", sha256("qwuerhrewerasdfas"), 1000, "First Transaction");
-    Transaction transaction2("asdfwewqr", sha256("sdwaasdfsaf"), 1300, "Second Transaction");
-    Transaction transaction3("llelleklnlz", sha256("sdwaasdqwewaf"), 2000, "Third Transaction");
+    walletDat.AddPendingBlockToChain();
+    walletDat.MakeTransaction(walletTuanAnh.GetAddress(), 20, "Hello");
+    walletTuanAnh.MakeTransaction(walletMo.GetAddress(), 30, "How are you today");
 
-    block.AddTransaction(transaction1);
-    block.AddTransaction(transaction2);
+    walletMo.AddPendingBlockToChain();
 
-    cout << "Before mining hash: " << block.GetHash() << endl;
-    
-    block.Mine(3);
+    cout << walletDat.GetBalance() << endl;
+    cout << walletTuanAnh.GetBalance() << endl;
+    cout << walletMo.GetBalance() << endl;
 
-    cout << "After mining hash: " << block.GetHash() << endl;
+    // string transactionHash;
+    // cout << "Enter transaction hash: " << endl;
+    // cin >> transactionHash;
+    // const Transaction * transaction = blockchain.GetTransaction(transactionHash);
+    // if (transaction)
+    //     cout << transaction -> GetTransactionInfo(sha256("Nguyen Van Dat"));
+    // else
+    //     cout << "Transaction not found";
 
-    block.AddTransaction(transaction3);  
-
-    const Transaction * aTransaction = block.GetTransaction(transaction1.GetHash());
-    cout << "Transaction 1 info" << aTransaction->GetTransactionInfo("");
-
-    const Transaction * anotherTransaction = block.GetTransaction(transaction3.GetHash());
-    if (!anotherTransaction)
-    {
-        cout << "Transaction does not exsist" << endl;
-    }
-
-    return 0;  
+    const Block * block = blockchain.GetBlock(3);
+    cout << "GetBlock" << block -> GetHash() << endl;
+    const Transaction * transaction = block -> GetTransaction(1);
+    cout << "GetTransaction" << transaction -> GetHash() << endl;
+    cout << "GetTransactionInfo: " << transaction -> GetTransactionInfo(sha256("Nguyen Van Dat"));
 }

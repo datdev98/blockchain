@@ -6,7 +6,9 @@
 #include <vector>
 #include "block.h"
 #include "transaction.h"
+#include "wallet.h"
 
+class Wallet;
 
 class Blockchain
 {
@@ -14,15 +16,17 @@ class Blockchain
         vector<Block> _chain;
         uint16_t _dificulty;
         Block * _pendingBlock;
+        double _reward;
 
     public:
-        Blockchain(uint16_t dificulty);
-        void AddPendingBlockToChain();
-        void AddTransactionToPendingBlock(Transaction &transaction);
+        Blockchain(uint16_t dificulty, double reward);
         const Block * GetLastBlock();
-        const Block * GetBlock(string blockHash);
-        const Block * GetBlock(uint32_t index);
+        const Block * GetBlock(const string blockHash) const;
+        const Block * GetBlock(const uint32_t index) const;
         const Transaction * GetTransaction(const string transactionHash) const;
+        friend double Wallet::GetBalance();
+        friend void Wallet::MakeTransaction(string toAddress, double amount, string content);
+        friend void Wallet::AddPendingBlockToChain();        
 };
 
 #endif

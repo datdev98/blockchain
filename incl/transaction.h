@@ -20,6 +20,12 @@ class Transaction
         // Kiem tra nguoi dung co tham gia giao dich hay khong
         bool _IsParticipant(string userPrivateKey) const;
 
+        // Kiem tra nguoi dung co phai nguoi gui khong
+        bool _IsSender(string userPrivateKey) const;
+
+        // Kiem tra nguoi dung co phai nguoi nhan khong
+        bool _IsReceiver(string userPrivateKey) const;
+
         // Tra ve dia chi cong khai cua nguoi gui
         string _GetPublicAddressOfSender() const;
 
@@ -30,6 +36,7 @@ class Transaction
         Transaction(string fromAddress, string toAddress, double amount, string content);
         string GetHash() const;
         string GetTransactionInfo(string userPrivateKey) const;
+        double GetTransactionAmount(string userPrivateKey) const;
 };
 
 #endif
