@@ -25,11 +25,15 @@ const Block * Blockchain::GetBlock(const string blockHash) const
     for (uint32_t i = 0; i < _chain.size(); i++)
         if (_chain[i].GetHash().compare(blockHash) == 0)
             return &_chain[i];
+    return 0;
 }
 
 const Block * Blockchain::GetBlock(const uint32_t index) const
 {
-    return &_chain[index];
+    if (index >= 0 && index < _chain.size())
+        return &_chain.at(index);
+
+    return 0;
 }
 
 const Transaction * Blockchain::GetTransaction(const string transactionHash) const
@@ -40,6 +44,10 @@ const Transaction * Blockchain::GetTransaction(const string transactionHash) con
         if (transaction)
             return transaction;
     }
+    const Transaction * transaction = _pendingBlock -> GetTransaction(transactionHash);
+    if (transaction)
+        return transaction;
+    return 0;
 }
 
 double Wallet::GetBalance()
@@ -83,5 +91,6 @@ void Wallet::AddPendingBlockToChain()
     cout << "Adding reward for Miner..." << endl;
     Transaction rewardTransaction("", GetAddress(), _blockchain -> _reward, "Reward for mining Blockchain");
     _blockchain -> _pendingBlock -> AddTransaction(rewardTransaction);
+    cout << "Reward transaction added: " << rewardTransaction.GetHash() << endl; 
     cout << "New Block is ready for adding Transactions" << endl;
 }

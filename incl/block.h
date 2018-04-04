@@ -33,6 +33,7 @@ class Block
         void Mine(uint16_t dificulty);
         const Transaction * GetTransaction(const string transactionHash) const;
         const Transaction * GetTransaction(const uint32_t index) const;
+        void ListTransactions() const;
         double GetBlockAmount(string userPrivateKey) const;
 };
 

@@ -81,11 +81,22 @@ const Transaction * Block::GetTransaction(const string transactionHash) const
             return &_transacstions[i];
         }
     }
+    return 0;
 }
 
 const Transaction * Block::GetTransaction(const uint32_t index) const
 {
-    return &_transacstions[index];
+    if (index >= 0 && index < _transacstions.size())
+        return &_transacstions.at(index);
+    return 0;
+}
+
+void Block::ListTransactions() const
+{
+    for (uint32_t i = 0; i < _transacstions.size(); i++)
+    {
+        cout << i << ". " << _transacstions[i].GetHash() << endl;
+    }
 }
 
 double Block::GetBlockAmount(string userPrivateKey) const
